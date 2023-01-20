@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="customerFormContext" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ise.pos.controller.CustomerFormController">
+   <children>
+      <Label alignment="CENTER" layoutX="204.0" layoutY="26.0" prefHeight="42.0" prefWidth="193.0" text="Customer ">
+         <font>
+            <Font name="SansSerif Bold" size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="30.0" layoutY="33.0" mnemonicParsing="false" onAction="#backToHomeOnAction" text="&lt;" AnchorPane.leftAnchor="30.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Separator layoutX="30.0" layoutY="75.0" prefHeight="3.0" prefWidth="531.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+      <Button layoutX="509.0" layoutY="35.0" mnemonicParsing="false" onAction="#newCustomerOnAction" text="+ new" AnchorPane.leftAnchor="509.0" AnchorPane.rightAnchor="30.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <TextField fx:id="idtxt" layoutX="30.0" layoutY="95.0" prefHeight="25.0" prefWidth="73.0" promptText="ID" AnchorPane.leftAnchor="30.0" />
+      <TextField fx:id="nameTxt" layoutX="30.0" layoutY="127.0" prefHeight="25.0" prefWidth="108.0" promptText="Name" AnchorPane.leftAnchor="30.0" />
+      <TextField fx:id="addressTxt" layoutX="226.0" layoutY="95.0" promptText="Address" AnchorPane.leftAnchor="225.0" />
+      <TextField fx:id="salaryTxt" layoutX="226.0" layoutY="127.0" prefHeight="25.0" prefWidth="98.0" promptText="Salary" AnchorPane.leftAnchor="225.0" />
+      <TextField layoutX="30.0" layoutY="161.0" prefHeight="25.0" prefWidth="378.0" promptText="search" AnchorPane.leftAnchor="30.0" />
+      <Button fx:id="btn" layoutX="435.0" layoutY="161.0" mnemonicParsing="false" onAction="#saveCustomerOnAction" text="Save">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tbl" layoutX="30.0" layoutY="200.0" prefHeight="184.0" prefWidth="538.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+        <columns>
+          <TableColumn fx:id="colID" text="ID" />
+          <TableColumn fx:id="colName" prefWidth="103.0" text="Name" />
+            <TableColumn fx:id="colAddress" prefWidth="169.0" text="Address" />
+            <TableColumn fx:id="colSalary" prefWidth="101.0" text="Salary" />
+            <TableColumn fx:id="colOption" prefWidth="86.0" text="Option" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
