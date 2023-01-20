@@ -38,6 +38,7 @@ public class PlaceOrderFormController {
     public TableColumn qtyCol;
     public TableColumn totalCol;
     public TableColumn optionCol;
+    public Label totalLbl;
 
     public  void initialize(){
 
@@ -136,12 +137,21 @@ public class PlaceOrderFormController {
                             btn
                     );
                     btn.setOnAction(e->{
-
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are You Sure ?",
+                                ButtonType.YES,ButtonType.NO);
+                        Optional<ButtonType> type = alert.showAndWait();
+                        if (type.get() == ButtonType.YES) {
+                            tmList.remove(tm);
+                            cartTbl.refresh();
+                            calculateTotal();
+                        }
                     });
 
                     tmList.add(tm);
                     cartTbl.setItems(tmList);
                 }
+                clear();
+                calculateTotal();
 
             } else {
                 warningAlert("\"Request QT\" Value Is Invade Value !");
@@ -157,6 +167,14 @@ public class PlaceOrderFormController {
             }
         }
     }
+    private void calculateTotal() {
+        double total = 0;
+        for (CartTM tm : tmList) {
+            total += tm.getTotal();
+        }
+        totalLbl.setText("Total : " + total);
+    }
+
     public void addToCartOnAction(ActionEvent actionEvent) {
         requestQTOnAction(actionEvent);
     }
@@ -173,6 +191,14 @@ public class PlaceOrderFormController {
                         .getResource("..\\view\\DashboardForm.fxml"))))
         );
         stage.centerOnScreen();
+    }
+
+    private void clear(){
+        itemCodeCB.setValue(null);
+        descriptionTxt.clear();
+        priceTxt.clear();
+        qtTxt.clear();
+        rqtTxt.clear();
     }
 
 }

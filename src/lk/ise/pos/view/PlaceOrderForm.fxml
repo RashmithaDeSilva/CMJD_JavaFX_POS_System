@@ -81,7 +81,7 @@
             <TableColumn fx:id="optionCol" prefWidth="94.0" resizable="false" text="Option" />
         </columns>
       </TableView>
-      <Label layoutX="30.0" layoutY="455.0" prefHeight="17.0" prefWidth="96.0" text="Total : 0.00" textFill="#0d3add" AnchorPane.leftAnchor="30.0">
+      <Label fx:id="totalLbl" layoutX="30.0" layoutY="455.0" prefHeight="27.0" prefWidth="247.0" text="Total : 0.00" textFill="#0d3add" AnchorPane.leftAnchor="30.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
