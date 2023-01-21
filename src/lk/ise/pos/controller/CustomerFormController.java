@@ -10,9 +10,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ise.pos.DB.Database;
+import lk.ise.pos.dao.DataAccessCode;
 import lk.ise.pos.entity.Customer;
 import lk.ise.pos.view.tm.CustomerTm;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,7 +35,7 @@ public class CustomerFormController {
 
     // Set initializer
     public void initialize(){
-        lodAll("");
+        loadAll("");
         colID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -84,48 +86,72 @@ public class CustomerFormController {
                             // If button is save mod this code will happen
                             if (btn.getText().equals("Save")) {
 
+                                try {
+                                    if (new DataAccessCode().saveCustomer(customer)) {
+                                        new Alert(Alert.AlertType.INFORMATION, "Customer Save Successfully").show();
+                                        loadAll("");
+                                    } else {
+                                        new Alert(Alert.AlertType.WARNING, "Something went Wrong!").show();
+                                    }
+                                    // Reset all inputs
+                                    clearData();
+
+                                    // Reload customer table
+                                    loadAll("");
+
+                                }catch (ClassNotFoundException | SQLException e){
+                                    //e.printStackTrace();
+                                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                                }
+
                                 // Add customer in to database
-                                Database.customers.add(customer);
+                                //Database.customers.add(customer);
 
                                 // Show successful alert
-                                new Alert(Alert.AlertType.INFORMATION,"Customer Save Successfully").show();
-
-                                // Reset all inputs
-                                clearData();
-
-                                // Reload customer table
-                                lodAll("");
+                                //new Alert(Alert.AlertType.INFORMATION,"Customer Save Successfully").show();
 
                             } else { // If button is update mode it will happen this code
 
-                                int validID = 0;
-
-                                // This code will update customer new details
-                                for (Customer c : Database.customers) {
-                                    if (c.getID().equals(idtxt.getText())) {
-                                        c.setName(customer.getName());
-                                        c.setAddress(customer.getAddress());
-                                        c.setSalary(customer.getSalary());
-
-                                        // Show successful alert
-                                        new Alert(Alert.AlertType.INFORMATION,"Customer Update Successfully").show();
-
-                                        // Reset all inputs
-                                        clearData();
-
-                                        // Reload customer table
-                                        lodAll("");
-
-                                        btn.setText("Save");
-                                        validID++;
-                                        break;
+                                try {
+                                    if (new DataAccessCode().updateCustomer(customer)) {
+                                        new Alert(Alert.AlertType.INFORMATION, "Customer Update Successfully").show();
+                                        loadAll("");
+                                    } else {
+                                        new Alert(Alert.AlertType.WARNING, "Something went Wrong!").show();
                                     }
+                                }catch (ClassNotFoundException | SQLException e){
+                                    //e.printStackTrace();
+                                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
                                 }
 
-                                if (validID == 0) {
-                                    // Show warning alert
-                                    warningAlert("Invalid ID !");
-                                }
+//                                int validID = 0;
+//
+//                                // This code will update customer new details
+//                                for (Customer c : Database.customers) {
+//                                    if (c.getID().equals(idtxt.getText())) {
+//                                        c.setName(customer.getName());
+//                                        c.setAddress(customer.getAddress());
+//                                        c.setSalary(customer.getSalary());
+//
+//                                        // Show successful alert
+//                                        new Alert(Alert.AlertType.INFORMATION,"Customer Update Successfully").show();
+//
+//                                        // Reset all inputs
+//                                        clearData();
+//
+//                                        // Reload customer table
+//                                        lodAll("");
+//
+//                                        btn.setText("Save");
+//                                        validID++;
+//                                        break;
+//                                    }
+//                                }
+//
+//                                if (validID == 0) {
+//                                    // Show warning alert
+//                                    warningAlert("Invalid ID !");
+//                                }
 
                             }
 
@@ -173,7 +199,7 @@ public class CustomerFormController {
     }
 
     // Load customers
-    private void lodAll(String searchText) {
+    private void loadAll(String searchText) {
         ObservableList<CustomerTm> tmList = FXCollections.observableArrayList();
         for (Customer c : Database.customers) {
             Button btn = new Button("Delete");
@@ -188,7 +214,7 @@ public class CustomerFormController {
                 if (type.get() == ButtonType.YES) {
                     Database.customers.remove(c);
                     new Alert(Alert.AlertType.INFORMATION,"Successfully Delete Customer!").show();
-                    lodAll("");
+                    loadAll("");
                 }
             });
 

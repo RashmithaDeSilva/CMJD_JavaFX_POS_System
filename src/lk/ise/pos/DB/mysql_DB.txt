@@ -1,0 +1,51 @@
+CREATE DATABASE IF NOT EXISTS pos;
+SHOW DATABASES;
+USE pos;
+#================
+CREATE TABLE IF NOT EXISTS customers
+(
+    id      VARCHAR(45) PRIMARY KEY,
+    name    VARCHAR(45),
+    address VARCHAR(100),
+    salary  DOUBLE
+);
+SHOW TABLES;
+DESC customers;
+#============================
+CREATE TABLE IF NOT EXISTS items
+(
+    code        VARCHAR(45) PRIMARY KEY,
+    description VARCHAR(100),
+    qty_on_hand INT,
+    unit_price  DOUBLE
+);
+SHOW TABLES;
+DESC items;
+#============================
+CREATE TABLE IF NOT EXISTS orders
+(
+    order_id VARCHAR(45) PRIMARY KEY,
+    customer VARCHAR(45),
+    date     DATE,
+    total    DOUBLE,
+    CONSTRAINT FOREIGN KEY (customer) REFERENCES customers (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+SHOW TABLES;
+DESC orders;
+#=========================
+CREATE TABLE IF NOT EXISTS order_details
+(
+    item_code  VARCHAR(45),
+    order_id   VARCHAR(45),
+    qty        INT,
+    unit_price DOUBLE,
+    CONSTRAINT PRIMARY KEY (item_code, order_id),
+    CONSTRAINT FOREIGN KEY (item_code) REFERENCES items (code)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (order_id) REFERENCES orders (order_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+SHOW TABLES;
+DESC order_details;
+#===========================
